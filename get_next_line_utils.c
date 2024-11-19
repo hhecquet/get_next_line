@@ -6,7 +6,7 @@
 /*   By: hhecquet <hhecquet@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 09:30:42 by hhecquet          #+#    #+#             */
-/*   Updated: 2024/11/19 11:09:15 by hhecquet         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:01:55 by hhecquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,79 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	if (start >= ft_strlen(s) || !s)
+	{
+		str = malloc(sizeof(char) * 1);
+		if (!str || !s)
+			return (NULL);
+		str[j] = '\0';
+		return (str);
+	}
+	else if (len > (ft_strlen(s) - start))
+		len = ft_strlen(s) - start;
+	str = malloc(sizeof(char) * len + 1);
+	if (!str)
+		return (NULL);
+	while (i != start)
+		i++;
+	while (j < len)
+		str[j++] = s[i++];
+	str[j] = '\0';
+	return (str);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	size_t			tot;
+	void			*ran;
+	unsigned char	*str;
+
+	tot = size * nmemb;
+	ran = malloc(tot);
+	if (!ran)
+		return (NULL);
+	str = ran;
+	while (tot != 0)
+	{
+		*str = 0;
+		str++;
+		tot--;
+	}
+	return (ran);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	i;
+	char	*str;
+
+	i = 0;
+	str = malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!str)
+	{
+		free(str);
+		return (NULL);
+	}
+	while (i != ft_strlen(s1))
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (i != (ft_strlen(s1) + ft_strlen(s2)))
+	{
+		str[i] = s2[i - ft_strlen(s1)];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
