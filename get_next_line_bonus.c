@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hhecquet <hhecquet@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 09:30:36 by hhecquet          #+#    #+#             */
-/*   Updated: 2024/11/20 09:08:42 by hhecquet         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:30:30 by hhecquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,25 +95,25 @@ char	*obtain_remaining(char *basin_buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*basin_buffer;
+	static char	*basin_buffer[1024];
 	char		*line;
 
 	if (fd < 0 || read(fd, NULL, 0) < 0 || BUFFER_SIZE <= 0)
-		return (free(basin_buffer), basin_buffer = NULL, NULL);
-	if (!basin_buffer)
+		return (free(basin_buffer[fd]), basin_buffer[fd] = NULL, NULL);
+	if (!basin_buffer[fd])
 	{
-		basin_buffer = ft_calloc(1, sizeof (char));
-		if (!basin_buffer)
-			return (free(basin_buffer), basin_buffer = NULL, NULL);
+		basin_buffer[fd] = ft_calloc(1, sizeof (char));
+		if (!basin_buffer[fd])
+			return (free(basin_buffer[fd]), basin_buffer[fd] = NULL, NULL);
 	}
-	basin_buffer = read_from_file(basin_buffer, fd);
-	if (!basin_buffer || !basin_buffer[0])
+	basin_buffer[fd] = read_from_file(basin_buffer[fd], fd);
+	if (!basin_buffer[fd] || !basin_buffer[fd][0])
 	{
-		if (basin_buffer)
-			return (free(basin_buffer), basin_buffer = NULL, NULL);
+		if (basin_buffer[fd])
+			return (free(basin_buffer[fd]), basin_buffer[fd] = NULL, NULL);
 	}
-	line = extract_line(basin_buffer);
-	basin_buffer = obtain_remaining(basin_buffer);
+	line = extract_line(basin_buffer[fd]);
+	basin_buffer[fd] = obtain_remaining(basin_buffer[fd]);
 	return (line);
 }
 
