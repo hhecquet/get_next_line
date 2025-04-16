@@ -14,12 +14,12 @@
 
 char	*join_buffer(char *basin_buffer, char *read_buffer)
 {
-	char	*temp;
+	char	*tmp;
 
-	temp = ft_strjoin(basin_buffer, read_buffer);
+	tmp = ft_strjoin(basin_buffer, read_buffer);
 	free(basin_buffer);
 	basin_buffer = NULL;
-	return (temp);
+	return (tmp);
 }
 
 char	*read_from_file(char *basin_buffer, int fd)
